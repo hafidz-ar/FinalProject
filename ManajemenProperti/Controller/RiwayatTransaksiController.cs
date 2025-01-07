@@ -10,28 +10,28 @@ using System.Windows.Forms;
 
 namespace ManajemenProperti.Controller
 {
-    public class TransaksiController
+    public class RiwayatTransaksiController
     {
         // deklarasi objek Repository untuk menjalankan operasi CRUD
-        private TransaksiRepository _repository;
+        private RiwayatTransaksiRepository _repository;
 
         /// <summary>
         /// Method untuk menampilkan data transaksi berdasarkan keterangan
         /// </summary>
         /// <param name="keterangan"></param>
         /// <returns></returns>
-        public List<Transaksi> readByPropertiID(int PropertiID)
+        public List<RiwayatTransaksi> readByPropertiID(int PropertiID)
         {
             // membuat objek collection
-            List<Transaksi> list = new List<Transaksi>();
+            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
 
             // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
                 // membuat objek dari class repository
-                _repository = new TransaksiRepository(context);
+                _repository = new RiwayatTransaksiRepository(context);
 
-                // panggil method ReadByKeterangan yang ada di dalam class repository
+                // panggil method ReadByPropertiID yang ada di dalam class repository
                 list = _repository.readByPropertiID(PropertiID);
             }
 
@@ -42,16 +42,16 @@ namespace ManajemenProperti.Controller
         /// Method untuk menampilkan semua data transaksi
         /// </summary>
         /// <returns></returns>
-        public List<Transaksi> readAllTransaksi()
+        public List<RiwayatTransaksi> readAllTransaksi()
         {
             // membuat objek collection
-            List<Transaksi> list = new List<Transaksi>();
+            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
 
             // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
                 // membuat objek dari class repository
-                _repository = new TransaksiRepository(context);
+                _repository = new RiwayatTransaksiRepository(context);
 
                 // panggil method ReadAll yang ada di dalam class repository
                 list = _repository.readAllTransaksi();
@@ -60,50 +60,21 @@ namespace ManajemenProperti.Controller
             return list;
         }
 
-        public int createTransaksi(Transaksi trx)
+        public int createTransaksi(RiwayatTransaksi trx)
         {
             int result = 0;
 
-            // cek pengguna yang diinputkan tidak boleh kosong
-            if (trx.Username <= 0)
-            {
-                MessageBox.Show("Users harus diisi dengan ID yang valid !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            // Validasi input
+            if (!ValidateTransaksi(trx))
                 return 0;
-            }
 
-            // cek properti ID yang diinputkan tidak boleh kosong atau kurang dari atau sama dengan 0
-            if (trx.PropertiID <= 0)
-            {
-                MessageBox.Show("PropertiID harus diisi dan lebih besar dari 0 !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
-
-            // cek tanggal sewa yang diinputkan tidak boleh kosong
-            if (trx.Tgl_Sewa == DateTime.MinValue)
-            {
-                MessageBox.Show("Tanggal Sewa harus diisi !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
-
-            // cek lama sewa yang diinputkan tidak boleh kurang dari atau sama dengan 0
-            if (trx.Lama_Sewa <= 0)
-            {
-                MessageBox.Show("Lama Sewa harus diisi dan lebih besar dari 0 !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
-
-            // PropertiID tidak perlu diisi karena akan otomatis di-generate oleh database
             trx.TransaksiID = 0;  // Pastikan TransaksiID tidak diisi, jika perlu set 0
 
             // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
                 // membuat objek class repository
-                _repository = new TransaksiRepository(context);
+                _repository = new RiwayatTransaksiRepository(context);
 
                 // panggil method Create class repository untuk menambahkan data
                 result = _repository.createTransaksi(trx);
@@ -123,47 +94,19 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int updateTransaksi(Transaksi trx)
+        public int updateTransaksi(RiwayatTransaksi trx)
         {
             int result = 0;
 
-            // cek pengguna yang diinputkan tidak boleh kosong
-            if (trx.Username <= 0)
-            {
-                MessageBox.Show("Users harus diisi dengan ID yang valid !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            // Validasi input
+            if (!ValidateTransaksi(trx))
                 return 0;
-            }
-
-            // cek properti ID yang diinputkan tidak boleh kosong atau kurang dari atau sama dengan 0
-            if (trx.PropertiID <= 0)
-            {
-                MessageBox.Show("PropertiID harus diisi dan lebih besar dari 0 !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
-
-            // cek tanggal sewa yang diinputkan tidak boleh kosong
-            if (trx.Tgl_Sewa == DateTime.MinValue)
-            {
-                MessageBox.Show("Tanggal Sewa harus diisi !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
-
-            // cek lama sewa yang diinputkan tidak boleh kurang dari atau sama dengan 0
-            if (trx.Lama_Sewa <= 0)
-            {
-                MessageBox.Show("Lama Sewa harus diisi dan lebih besar dari 0 !!!", "Peringatan",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                return 0;
-            }
 
             // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
                 // membuat objek class repository
-                _repository = new TransaksiRepository(context);
+                _repository = new RiwayatTransaksiRepository(context);
 
                 // panggil method Update class repository untuk mengupdate data
                 result = _repository.updateTransaksi(trx);
@@ -181,7 +124,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int deleteTransaksi(Transaksi trx)
+        public int deleteTransaksi(RiwayatTransaksi trx)
         {
             int result = 0;
 
@@ -197,7 +140,7 @@ namespace ManajemenProperti.Controller
             using (DbContext context = new DbContext())
             {
                 // membuat objek dari class repository
-                _repository = new TransaksiRepository(context);
+                _repository = new RiwayatTransaksiRepository(context);
 
                 // panggil method Delete class repository untuk menghapus data
                 result = _repository.deleteTransaksi(trx);
@@ -213,6 +156,26 @@ namespace ManajemenProperti.Controller
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 
             return result;
+        }
+
+        // Helper function to validate Transaksi
+        private bool ValidateTransaksi(RiwayatTransaksi trx)
+        {
+            if (string.IsNullOrWhiteSpace(trx.Username))
+            {
+                MessageBox.Show("Username harus diisi dengan ID yang valid !!!", "Peringatan",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+
+            if (trx.PropertiID <= 0)
+            {
+                MessageBox.Show("PropertiID harus diisi dan lebih besar dari 0 !!!", "Peringatan",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return false;
+            }
+
+            return true;
         }
     }
 }

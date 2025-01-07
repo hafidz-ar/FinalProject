@@ -3,36 +3,32 @@ using ManajemenProperti.Model.Entity;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ManajemenProperti.Model.Repository
 {
-    public class TransaksiRepository
+    public class RiwayatTransaksiRepository
     {
         private MySqlConnection _conn;
 
-        public TransaksiRepository(DbContext context)
+        // Constructor untuk menginisialisasi koneksi dengan DbContext
+        public RiwayatTransaksiRepository(DbContext context)
         {
             _conn = context.Conn;
         }
 
-        public int createTransaksi(Transaksi transaksi)
+        // Menambahkan transaksi baru
+        public int createTransaksi(RiwayatTransaksi transaksi)
         {
             int result = 0;
 
-            string sql = @"INSERT INTO Transaksi (Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID) 
-                   VALUES (@username, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan, @TransaksiID)";
+            string sql = @"INSERT INTO Transaksi (Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan) 
+                           VALUES (@Username, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan)";
 
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
-                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
-                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
                 cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
-                cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
 
                 try
                 {
@@ -47,7 +43,8 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int updateTransaksi(Transaksi transaksi)
+        // Memperbarui transaksi
+        public int updateTransaksi(RiwayatTransaksi transaksi)
         {
             int result = 0;
 
@@ -58,8 +55,6 @@ namespace ManajemenProperti.Model.Repository
             {
                 cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
-                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
-                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
                 cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
                 cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
 
@@ -76,7 +71,8 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int deleteTransaksi(Transaksi transaksi)
+        // Menghapus transaksi
+        public int deleteTransaksi(RiwayatTransaksi transaksi)
         {
             int result = 0;
 
@@ -99,15 +95,16 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public List<Transaksi> readAllTransaksi()
+        // Membaca semua transaksi
+        public List<RiwayatTransaksi> readAllTransaksi()
         {
-            List<Transaksi> list = new List<Transaksi>();
+            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
 
             try
             {
-                string sql = @"select Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID 
-                               from Transaksi 
-                               order by TransaksiID";
+                string sql = @"SELECT Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID 
+                               FROM Transaksi 
+                               ORDER BY TransaksiID";
 
                 using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
                 {
@@ -115,13 +112,13 @@ namespace ManajemenProperti.Model.Repository
                     {
                         while (dtr.Read())
                         {
-                            Transaksi trx = new Transaksi();
-                            trx.Username = dtr["Username"] != DBNull.Value ? Convert.ToInt32(dtr["Username"]) : 0;
-                            trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
-                            trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
-                            trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;
-                            trx.Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty;
-                            trx.TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0;
+                            RiwayatTransaksi trx = new RiwayatTransaksi
+                            {
+                                Username = dtr["Username"].ToString(),
+                                PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0,
+                                Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty,
+                                TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0
+                            };
 
                             list.Add(trx);
                         }
@@ -136,32 +133,33 @@ namespace ManajemenProperti.Model.Repository
             return list;
         }
 
-        public List<Transaksi> readByPropertiID(int PropertiID)
+        // Membaca transaksi berdasarkan PropertiID
+        public List<RiwayatTransaksi> readByPropertiID(int PropertiID)
         {
-            List<Transaksi> list = new List<Transaksi>();
+            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
 
             try
             {
                 string sql = @"SELECT Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID
                                FROM Transaksi
-                               WHERE Keterangan LIKE @PropertiID
+                               WHERE PropertiID = @PropertiID
                                ORDER BY Tgl_Sewa";
 
                 using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
                 {
-                    cmd.Parameters.AddWithValue("@PropertiID", string.Format("%{0}%", PropertiID));
+                    cmd.Parameters.AddWithValue("@PropertiID", PropertiID);
 
                     using (MySqlDataReader dtr = cmd.ExecuteReader())
                     {
                         while (dtr.Read())
                         {
-                            Transaksi trx = new Transaksi();
-                            trx.Username = dtr["Username"] != DBNull.Value ? Convert.ToInt32(dtr["Username"]) : 0;
-                            trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
-                            trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
-                            trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;
-                            trx.Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty;
-                            trx.TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0;
+                            RiwayatTransaksi trx = new RiwayatTransaksi
+                            {
+                                Username = dtr["Username"].ToString(),
+                                PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0,
+                                Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty,
+                                TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0
+                            };
 
                             list.Add(trx);
                         }

@@ -11,19 +11,19 @@ namespace ManajemenProperti.Model.Repository
 {
     public class PropertiRepository
     {
-        private MySqlConnection _conn;
+        private readonly MySqlConnection _conn;
 
         public PropertiRepository(DbContext context)
         {
             _conn = context.Conn;
         }
 
+        // Method untuk menambahkan data Properti
         public int createProperti(Properti prp)
         {
             int result = 0;
-
             string sql = @"INSERT INTO Properti (Nama, Harga_sewa, Stok, PropertiID) 
-                   VALUES (@Nama, @Harga_sewa, @Stok, @PropertiID)";
+                           VALUES (@Nama, @Harga_sewa, @Stok, @PropertiID)";
 
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
@@ -45,17 +45,16 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
+        // Method untuk mengupdate data Properti
         public int updateProperti(Properti prp)
         {
             int result = 0;
+            string sql = @"UPDATE Properti 
+                           SET Nama = @Nama, Harga_sewa = @Harga_sewa, Stok = @Stok 
+                           WHERE PropertiID = @PropertiID";
 
-            // deklarasi perintah SQL
-            string sql = @"UPDATE Properti SET Nama = @Nama, Harga_sewa = @Harga_sewa, Stok = @Stok WHERE PropertiID = @PropertiID";
-
-            // membuat objek command menggunakan blok using
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                // mendaftarkan parameter dan mengeset nilainya
                 cmd.Parameters.AddWithValue("@Nama", prp.Nama);
                 cmd.Parameters.AddWithValue("@Harga_sewa", prp.Harga_Sewa);
                 cmd.Parameters.AddWithValue("@Stok", prp.Stok);
@@ -63,7 +62,6 @@ namespace ManajemenProperti.Model.Repository
 
                 try
                 {
-                    // jalankan perintah UPDATE dan tampung hasilnya ke dalam variabel result
                     result = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -75,22 +73,18 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
+        // Method untuk menghapus data Properti
         public int deleteProperti(Properti prp)
         {
             int result = 0;
-
-            // deklarasi perintah SQL
             string sql = @"DELETE FROM Properti WHERE PropertiID = @PropertiID";
 
-            // membuat objek command menggunakan blok using
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                // mendaftarkan parameter dan mengeset nilainya
                 cmd.Parameters.AddWithValue("@PropertiID", prp.PropertiID);
 
                 try
                 {
-                    // jalankan perintah DELETE dan tampung hasilnya ke dalam variabel result
                     result = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
@@ -102,93 +96,102 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
+        // Method untuk membaca semua data Properti
         public List<Properti> readAllProperti()
         {
-            // membuat objek collection untuk menampung objek mahasiswa
             List<Properti> list = new List<Properti>();
+            string sql = @"SELECT Nama, Harga_sewa, Stok, PropertiID FROM Properti ORDER BY Nama";
 
-            try
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                // deklarasi perintah SQL
-                string sql = @"select nama, harga_sewa, stok, propertiid 
-                               from properti 
-                               order by nama";
-
-                // membuat objek command menggunakan blok using
-                using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+                try
                 {
-                    // membuat objek dtr (data reader) untuk menampung result set (hasil perintah SELECT)
                     using (MySqlDataReader dtr = cmd.ExecuteReader())
                     {
-                        // panggil method Read untuk mendapatkan baris dari result set
                         while (dtr.Read())
                         {
-                            // proses konversi dari row result set ke object
-                            Properti prp = new Properti();
-                            prp.Nama = dtr["nama"].ToString();
-                            prp.Harga_Sewa = dtr["harga_sewa"] != DBNull.Value ? Convert.ToInt32(dtr["harga_sewa"]) : 0;
-                            prp.Stok = dtr["stok"] != DBNull.Value ? Convert.ToInt32(dtr["stok"]) : 0;
-                            prp.PropertiID = dtr["propertiiD"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
-
-                            // tambahkan objek mahasiswa ke dalam collection
+                            Properti prp = new Properti
+                            {
+                                Nama = dtr["Nama"].ToString(),
+                                Harga_Sewa = dtr["Harga_sewa"] != DBNull.Value ? Convert.ToDecimal(dtr["Harga_sewa"]) : 0,
+                                Stok = dtr["Stok"] != DBNull.Value ? Convert.ToInt32(dtr["Stok"]) : 0,
+                                PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0
+                            };
                             list.Add(prp);
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Print("ReadAll error: {0}", ex.Message);
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("ReadAll error: {0}", ex.Message);
+                }
             }
 
             return list;
         }
 
-        // Method untuk menampilkan data mahasiwa berdasarkan pencarian nama
+        // Method untuk mencari Properti berdasarkan nama
         public List<Properti> readByNama(string nama)
         {
-            // Membuat objek collection untuk menampung objek Properti
             List<Properti> list = new List<Properti>();
+            string sql = @"SELECT Nama, Harga_sewa, Stok, PropertiID 
+                           FROM Properti 
+                           WHERE Nama LIKE @Nama 
+                           ORDER BY Nama";
 
-            try
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                // Deklarasi perintah SQL
-                string sql = @"SELECT Nama, Harga_sewa, Stok, PropertiID
-                       FROM Properti
-                       WHERE Nama LIKE @nama
-                       ORDER BY Nama";
+                cmd.Parameters.AddWithValue("@Nama", $"%{nama}%");
 
-                // Membuat objek command menggunakan blok using
-                using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+                try
                 {
-                    // Mendaftarkan parameter dan mengeset nilainya
-                    cmd.Parameters.AddWithValue("@nama", string.Format("%{0}%", nama));
-
-                    // Membuat objek dtr (data reader) untuk menampung result set (hasil perintah SELECT)
                     using (MySqlDataReader dtr = cmd.ExecuteReader())
                     {
-                        // Panggil method Read untuk mendapatkan baris dari result set
                         while (dtr.Read())
                         {
-                            // Proses konversi dari row result set ke object Properti
-                            Properti prp = new Properti();
-                            prp.Nama = dtr["Nama"].ToString();
-                            prp.Harga_Sewa = dtr["Harga_sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Harga_sewa"]) : 0;
-                            prp.Stok = dtr["Stok"] != DBNull.Value ? Convert.ToInt32(dtr["Stok"]) : 0;
-                            prp.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
-
-                            // Tambahkan objek Properti ke dalam collection
+                            Properti prp = new Properti
+                            {
+                                Nama = dtr["Nama"].ToString(),
+                                Harga_Sewa = dtr["Harga_sewa"] != DBNull.Value ? Convert.ToDecimal(dtr["Harga_sewa"]) : 0,
+                                Stok = dtr["Stok"] != DBNull.Value ? Convert.ToInt32(dtr["Stok"]) : 0,
+                                PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0
+                            };
                             list.Add(prp);
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.Print("ReadByNama error: {0}", ex.Message);
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("ReadByNama error: {0}", ex.Message);
+                }
             }
 
             return list;
+        }
+
+        // Method untuk mengupdate stok Properti
+        public int updateStok(Properti prp)
+        {
+            int result = 0;
+            string sql = @"UPDATE Properti SET Stok = @Stok WHERE PropertiID = @PropertiID";
+
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@Stok", prp.Stok);
+                cmd.Parameters.AddWithValue("@PropertiID", prp.PropertiID);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("UpdateStok error: {0}", ex.Message);
+                }
+            }
+
+            return result;
         }
     }
 }
+

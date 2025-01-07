@@ -34,7 +34,7 @@ namespace ManajemenProperti.Model.Context
             try
             {
                 // Connection string ke database MySQL
-                string connectionString = "server=cbhtg.h.filess.io;user=manajemenproperti_paincapare;database=manajemenproperti_paincapare;port=3307;password=e4a0d2406606c5d53670de8b14130969420a4bc0";
+                string connectionString = "Server=127.0.0.1;Database=manajemen_properti;User=root;Password=;";
 
                 conn = new MySqlConnection(connectionString);
                 conn.Open(); // Membuka koneksi

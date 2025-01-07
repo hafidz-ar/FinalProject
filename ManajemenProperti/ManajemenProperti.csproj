@@ -99,14 +99,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\PropertiController.cs" />
-    <Compile Include="Controller\TransaksiController.cs" />
+    <Compile Include="Controller\RiwayatTransaksiController.cs" />
     <Compile Include="Controller\UsersController.cs" />
     <Compile Include="Model\Context\DbContext.cs" />
     <Compile Include="Model\Entity\Properti.cs" />
-    <Compile Include="Model\Entity\Transaksi.cs" />
+    <Compile Include="Model\Entity\RiwayatTransaksi.cs" />
     <Compile Include="Model\Entity\Users.cs" />
     <Compile Include="Model\Repository\PropertiRepository.cs" />
-    <Compile Include="Model\Repository\TransaksiRepository.cs" />
+    <Compile Include="Model\Repository\RiwayatTransaksiRepository.cs" />
     <Compile Include="Model\Repository\UsersRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +115,18 @@
     </Compile>
     <Compile Include="View\FormPenyewa.Designer.cs">
       <DependentUpon>FormPenyewa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormRiwayatTransaksi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormRiwayatTransaksi.Designer.cs">
+      <DependentUpon>FormRiwayatTransaksi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormTambahProperti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormTambahProperti.Designer.cs">
+      <DependentUpon>FormTambahProperti.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LoginPage.cs">
       <SubType>Form</SubType>
@@ -133,6 +145,12 @@
     </Compile>
     <EmbeddedResource Include="View\FormPenyewa.resx">
       <DependentUpon>FormPenyewa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormRiwayatTransaksi.resx">
+      <DependentUpon>FormRiwayatTransaksi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\FormTambahProperti.resx">
+      <DependentUpon>FormTambahProperti.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LoginPage.resx">
       <DependentUpon>LoginPage.cs</DependentUpon>

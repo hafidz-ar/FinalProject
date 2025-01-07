@@ -1,17 +1,9 @@
 ﻿using ManajemenProperti.Model.Entity;
 using ManajemenProperti.Controller;
-using ManajemenProperti.Model.Repository;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ZstdSharp.Unsafe;
-
 
 namespace ManajemenProperti.View
 {
@@ -19,14 +11,16 @@ namespace ManajemenProperti.View
     {
         private List<Properti> listOfProperti = new List<Properti>();
         private PropertiController controller;
+
         public FormPenyewa()
         {
             InitializeComponent();
             controller = new PropertiController();
-            InisialisasiListView();
+            InitializeListView();
             LoadDataProperti();
         }
-        private void InisialisasiListView()
+
+        private void InitializeListView()
         {
             lvwFormPenyewa.View = System.Windows.Forms.View.Details;
             lvwFormPenyewa.FullRowSelect = true;
@@ -38,23 +32,98 @@ namespace ManajemenProperti.View
             lvwFormPenyewa.Columns.Add("Stok", 70, HorizontalAlignment.Left);
             lvwFormPenyewa.Columns.Add("ID Properti", 70, HorizontalAlignment.Left);
         }
+
         private void LoadDataProperti()
         {
-            // kosongkan listview
             lvwFormPenyewa.Items.Clear();
-            // panggil method ReadAll dan tampung datanya ke dalam collection
             listOfProperti = controller.readAllProperti();
-            // ekstrak objek mhs dari collection
+
             foreach (var prp in listOfProperti)
             {
                 var noUrut = lvwFormPenyewa.Items.Count + 1;
                 var item = new ListViewItem(noUrut.ToString());
                 item.SubItems.Add(prp.Nama);
-                item.SubItems.Add(prp.Harga_Sewa.ToString());
+                item.SubItems.Add(prp.Harga_Sewa.ToString("N0")); // Format angka
                 item.SubItems.Add(prp.Stok.ToString());
                 item.SubItems.Add(prp.PropertiID.ToString());
-                // tampilkan data mhs ke listview
                 lvwFormPenyewa.Items.Add(item);
+            }
+        }
+
+        private void btnCari_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(searchField.Text))
+            {
+                MessageBox.Show("Masukkan nama properti untuk mencari.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            lvwFormPenyewa.Items.Clear();
+            listOfProperti = controller.readByNama(searchField.Text);
+
+            if (listOfProperti == null || !listOfProperti.Any())
+            {
+                MessageBox.Show("Properti tidak ditemukan.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            foreach (var prp in listOfProperti)
+            {
+                var noUrut = lvwFormPenyewa.Items.Count + 1;
+                var item = new ListViewItem(noUrut.ToString());
+                item.SubItems.Add(prp.Nama);
+                item.SubItems.Add(prp.Harga_Sewa.ToString("N0"));
+                item.SubItems.Add(prp.Stok.ToString());
+                item.SubItems.Add(prp.PropertiID.ToString());
+                lvwFormPenyewa.Items.Add(item);
+            }
+        }
+
+        private void btnSewaPrp_Click(object sender, EventArgs e)
+        {
+            if (lvwFormPenyewa.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Pilih properti yang ingin disewa.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedIndex = lvwFormPenyewa.SelectedItems[0].Index;
+            var selectedProperti = listOfProperti[selectedIndex];
+
+            if (selectedProperti.Stok <= 0)
+            {
+                MessageBox.Show("Properti ini sudah habis stoknya.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var dialogResult = MessageBox.Show($"Anda yakin ingin menyewa properti: {selectedProperti.Nama} seharga {selectedProperti.Harga_Sewa}?",
+                                               "Konfirmasi Penyewaan", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                selectedProperti.Stok -= 1;
+                var updateResult = controller.updateProperti(selectedProperti);
+
+                if (updateResult > 0)
+                {
+                    MessageBox.Show("Properti berhasil disewa.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataProperti();
+                }
+                else
+                {
+                    MessageBox.Show("Gagal menyewa properti. Silakan coba lagi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnTambahPrp_Click(object sender, EventArgs e)
+        {
+            using (var formTambahProperti = new FormTambahProperti())
+            {
+                if (formTambahProperti.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataProperti();
+                }
             }
         }
 
@@ -66,36 +135,20 @@ namespace ManajemenProperti.View
                 var selectedProperti = listOfProperti[selectedIndex];
 
                 MessageBox.Show($"Nama: {selectedProperti.Nama}\n" +
-                                $"Harga Sewa: {selectedProperti.Harga_Sewa}\n" +
+                                $"Harga Sewa: {selectedProperti.Harga_Sewa:N0}\n" +
                                 $"Stok: {selectedProperti.Stok}\n" +
                                 $"ID Properti: {selectedProperti.PropertiID}",
-                                "Properti Detail", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                "Detail Properti", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
+        private void btnRiwayatTrx_Click(object sender, EventArgs e)
+        {
+            FormRiwayatTransaksi formRiwayatTransaksi = new FormRiwayatTransaksi();
+            formRiwayatTransaksi.Show();
+            this.Hide();
+        }
         private void FormPenyewa_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void btnCari_Click(object sender, EventArgs e)
-        {
-            // kosongkan listview
-            lvwFormPenyewa.Items.Clear();
-            // panggil method ReadAll dan tampung datanya ke dalam collection
-            listOfProperti = controller.readByNama(searchField.Text);
-            // ekstrak objek mhs dari collection
-            foreach (var prp in listOfProperti)
-            {
-                var noUrut = lvwFormPenyewa.Items.Count + 1;
-                var item = new ListViewItem(noUrut.ToString());
-                item.SubItems.Add(prp.Nama);
-                item.SubItems.Add(prp.Harga_Sewa.ToString());
-                item.SubItems.Add(prp.Stok.ToString());
-                item.SubItems.Add(prp.PropertiID.ToString());
-                // tampilkan data mhs ke listview
-                lvwFormPenyewa.Items.Add(item);
-            }
         }
     }
 }

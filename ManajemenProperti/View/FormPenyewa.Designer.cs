@@ -54,6 +54,7 @@
             this.btnTambahPrp.TabIndex = 8;
             this.btnTambahPrp.Text = "Tambah Properti";
             this.btnTambahPrp.UseVisualStyleBackColor = true;
+            this.btnTambahPrp.Click += new System.EventHandler(this.btnTambahPrp_Click);
             // 
             // searchField
             // 
@@ -80,6 +81,7 @@
             this.btnSewaPrp.TabIndex = 15;
             this.btnSewaPrp.Text = "Sewa Properti";
             this.btnSewaPrp.UseVisualStyleBackColor = true;
+            this.btnSewaPrp.Click += new System.EventHandler(this.btnSewaPrp_Click);
             // 
             // btnRiwayatTrx
             // 
@@ -89,6 +91,7 @@
             this.btnRiwayatTrx.TabIndex = 16;
             this.btnRiwayatTrx.Text = "Riwayat Transaksi";
             this.btnRiwayatTrx.UseVisualStyleBackColor = true;
+            this.btnRiwayatTrx.Click += new System.EventHandler(this.btnRiwayatTrx_Click);
             // 
             // FormPenyewa
             // 
