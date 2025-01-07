@@ -10,26 +10,26 @@ using System.Windows.Forms;
 
 namespace ManajemenProperti.Controller
 {
-    public class RiwayatTransaksiController
+    public class TransaksiController
     {
         // deklarasi objek Repository untuk menjalankan operasi CRUD
-        private RiwayatTransaksiRepository _repository;
+        private TransaksiRepository _repository;
 
         /// <summary>
         /// Method untuk menampilkan data transaksi berdasarkan keterangan
         /// </summary>
         /// <param name="keterangan"></param>
         /// <returns></returns>
-        public List<RiwayatTransaksi> readByPropertiID(int PropertiID)
+        public List<Transaksi> readByPropertiID(int PropertiID)
         {
             // membuat objek collection
-            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
+            List<Transaksi> list = new List<Transaksi>();
 
             // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
                 // membuat objek dari class repository
-                _repository = new RiwayatTransaksiRepository(context);
+                _repository = new TransaksiRepository(context);
 
                 // panggil method ReadByPropertiID yang ada di dalam class repository
                 list = _repository.readByPropertiID(PropertiID);
@@ -42,25 +42,20 @@ namespace ManajemenProperti.Controller
         /// Method untuk menampilkan semua data transaksi
         /// </summary>
         /// <returns></returns>
-        public List<RiwayatTransaksi> readAllTransaksi()
+        public List<Transaksi> readAllTransaksi()
         {
-            // membuat objek collection
-            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
+            List<Transaksi> list = new List<Transaksi>();
 
-            // membuat objek context menggunakan blok using
             using (DbContext context = new DbContext())
             {
-                // membuat objek dari class repository
-                _repository = new RiwayatTransaksiRepository(context);
-
-                // panggil method ReadAll yang ada di dalam class repository
+                _repository = new TransaksiRepository(context);
                 list = _repository.readAllTransaksi();
             }
 
             return list;
         }
 
-        public int createTransaksi(RiwayatTransaksi trx)
+        public int createTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -74,7 +69,7 @@ namespace ManajemenProperti.Controller
             using (DbContext context = new DbContext())
             {
                 // membuat objek class repository
-                _repository = new RiwayatTransaksiRepository(context);
+                _repository = new TransaksiRepository(context);
 
                 // panggil method Create class repository untuk menambahkan data
                 result = _repository.createTransaksi(trx);
@@ -94,7 +89,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int updateTransaksi(RiwayatTransaksi trx)
+        public int updateTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -106,7 +101,7 @@ namespace ManajemenProperti.Controller
             using (DbContext context = new DbContext())
             {
                 // membuat objek class repository
-                _repository = new RiwayatTransaksiRepository(context);
+                _repository = new TransaksiRepository(context);
 
                 // panggil method Update class repository untuk mengupdate data
                 result = _repository.updateTransaksi(trx);
@@ -124,7 +119,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int deleteTransaksi(RiwayatTransaksi trx)
+        public int deleteTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -140,7 +135,7 @@ namespace ManajemenProperti.Controller
             using (DbContext context = new DbContext())
             {
                 // membuat objek dari class repository
-                _repository = new RiwayatTransaksiRepository(context);
+                _repository = new TransaksiRepository(context);
 
                 // panggil method Delete class repository untuk menghapus data
                 result = _repository.deleteTransaksi(trx);
@@ -159,7 +154,7 @@ namespace ManajemenProperti.Controller
         }
 
         // Helper function to validate Transaksi
-        private bool ValidateTransaksi(RiwayatTransaksi trx)
+        private bool ValidateTransaksi(Transaksi trx)
         {
             if (string.IsNullOrWhiteSpace(trx.Username))
             {

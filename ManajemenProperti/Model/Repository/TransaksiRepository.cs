@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 namespace ManajemenProperti.Model.Repository
 {
-    public class RiwayatTransaksiRepository
+    public class TransaksiRepository
     {
         private MySqlConnection _conn;
 
         // Constructor untuk menginisialisasi koneksi dengan DbContext
-        public RiwayatTransaksiRepository(DbContext context)
+        public TransaksiRepository(DbContext context)
         {
             _conn = context.Conn;
         }
 
         // Menambahkan transaksi baru
-        public int createTransaksi(RiwayatTransaksi transaksi)
+        public int createTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -28,6 +28,8 @@ namespace ManajemenProperti.Model.Repository
             {
                 cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
+                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
+                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
                 cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
 
                 try
@@ -44,7 +46,7 @@ namespace ManajemenProperti.Model.Repository
         }
 
         // Memperbarui transaksi
-        public int updateTransaksi(RiwayatTransaksi transaksi)
+        public int updateTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -55,6 +57,8 @@ namespace ManajemenProperti.Model.Repository
             {
                 cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
+                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
+                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
                 cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
                 cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
 
@@ -72,7 +76,7 @@ namespace ManajemenProperti.Model.Repository
         }
 
         // Menghapus transaksi
-        public int deleteTransaksi(RiwayatTransaksi transaksi)
+        public int deleteTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -96,9 +100,9 @@ namespace ManajemenProperti.Model.Repository
         }
 
         // Membaca semua transaksi
-        public List<RiwayatTransaksi> readAllTransaksi()
+        public List<Transaksi> readAllTransaksi()
         {
-            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
+            List<Transaksi> list = new List<Transaksi>();
 
             try
             {
@@ -112,11 +116,13 @@ namespace ManajemenProperti.Model.Repository
                     {
                         while (dtr.Read())
                         {
-                            RiwayatTransaksi trx = new RiwayatTransaksi
+                            Transaksi trx = new Transaksi
                             {
                                 Username = dtr["Username"].ToString(),
                                 PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0,
-                                Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty,
+                                Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue,
+                                Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0,
+                                Keterangan = dtr["Keterangan"].ToString(),
                                 TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0
                             };
 
@@ -134,9 +140,9 @@ namespace ManajemenProperti.Model.Repository
         }
 
         // Membaca transaksi berdasarkan PropertiID
-        public List<RiwayatTransaksi> readByPropertiID(int PropertiID)
+        public List<Transaksi> readByPropertiID(int PropertiID)
         {
-            List<RiwayatTransaksi> list = new List<RiwayatTransaksi>();
+            List<Transaksi> list = new List<Transaksi>();
 
             try
             {
@@ -153,14 +159,15 @@ namespace ManajemenProperti.Model.Repository
                     {
                         while (dtr.Read())
                         {
-                            RiwayatTransaksi trx = new RiwayatTransaksi
+                            Transaksi trx = new Transaksi
                             {
                                 Username = dtr["Username"].ToString(),
                                 PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0,
-                                Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty,
+                                Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue,
+                                Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0,
+                                Keterangan = dtr["Keterangan"].ToString(),
                                 TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0
                             };
-
                             list.Add(trx);
                         }
                     }

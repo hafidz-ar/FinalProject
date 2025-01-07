@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using ManajemenProperti.Controller;
+using ManajemenProperti.Model.Entity;
 
 namespace ManajemenProperti.View
 {
@@ -33,10 +34,15 @@ namespace ManajemenProperti.View
                 return;
             }
 
+            // Memverifikasi login melalui UsersController
             if (usersController.Login(username, password))
             {
+                // Jika login berhasil, set Username ke session
+                UserSession.Username = username; // Menyimpan username di session
+
                 MessageBox.Show("Login Berhasil!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // Pindah ke FormPenyewa
                 FormPenyewa formPenyewa = new FormPenyewa();
                 formPenyewa.Show();
                 this.Hide();

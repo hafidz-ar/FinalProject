@@ -43,7 +43,7 @@ namespace ManajemenProperti.View
                 var noUrut = lvwFormPenyewa.Items.Count + 1;
                 var item = new ListViewItem(noUrut.ToString());
                 item.SubItems.Add(prp.Nama);
-                item.SubItems.Add(prp.Harga_Sewa.ToString("N0")); // Format angka
+                item.SubItems.Add(prp.Harga_Sewa.ToString("C", new System.Globalization.CultureInfo("id-ID"))); // Format sebagai mata uang
                 item.SubItems.Add(prp.Stok.ToString());
                 item.SubItems.Add(prp.PropertiID.ToString());
                 lvwFormPenyewa.Items.Add(item);
@@ -72,7 +72,7 @@ namespace ManajemenProperti.View
                 var noUrut = lvwFormPenyewa.Items.Count + 1;
                 var item = new ListViewItem(noUrut.ToString());
                 item.SubItems.Add(prp.Nama);
-                item.SubItems.Add(prp.Harga_Sewa.ToString("N0"));
+                item.SubItems.Add(prp.Harga_Sewa.ToString("C", new System.Globalization.CultureInfo("id-ID"))); // Format sebagai mata uang
                 item.SubItems.Add(prp.Stok.ToString());
                 item.SubItems.Add(prp.PropertiID.ToString());
                 lvwFormPenyewa.Items.Add(item);
@@ -96,25 +96,56 @@ namespace ManajemenProperti.View
                 return;
             }
 
-            var dialogResult = MessageBox.Show($"Anda yakin ingin menyewa properti: {selectedProperti.Nama} seharga {selectedProperti.Harga_Sewa}?",
-                                               "Konfirmasi Penyewaan", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialogResult == DialogResult.Yes)
+            // Tampilkan form untuk mengisi data transaksi
+            using (var formTransaksi = new FormTransaksi())
             {
-                selectedProperti.Stok -= 1;
-                var updateResult = controller.updateProperti(selectedProperti);
+                var dialogResult = formTransaksi.ShowDialog();
 
-                if (updateResult > 0)
+                if (dialogResult == DialogResult.OK)
                 {
-                    MessageBox.Show("Properti berhasil disewa.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadDataProperti();
-                }
-                else
-                {
-                    MessageBox.Show("Gagal menyewa properti. Silakan coba lagi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Ambil data dari form Transaksi
+                    var tglSewa = formTransaksi.TglSewa;
+                    var lamaSewa = formTransaksi.LamaSewa;
+                    var username = UserSession.Username; // Ambil username dari session
+
+                    // Tambahkan transaksi
+                    Transaksi transaksi = new Transaksi
+                    {
+                        PropertiID = selectedProperti.PropertiID,
+                        Username = username, // Gunakan username dari session
+                        Tgl_Sewa = tglSewa,
+                        Lama_Sewa = lamaSewa,
+                        Keterangan = "Succesfull"
+                    };
+
+                    // Simpan transaksi
+                    var transaksiController = new TransaksiController();
+                    var createResult = transaksiController.createTransaksi(transaksi);
+
+                    if (createResult > 0)
+                    {
+                        // Update stok properti setelah transaksi sukses
+                        selectedProperti.Stok -= 1;
+                        var updateResult = controller.updateProperti(selectedProperti);
+
+                        if (updateResult > 0)
+                        {
+                            MessageBox.Show("Properti berhasil disewa.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LoadDataProperti();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Gagal memperbarui stok properti.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Gagal mencatat transaksi.", "Kesalahan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
+
 
         private void btnTambahPrp_Click(object sender, EventArgs e)
         {
