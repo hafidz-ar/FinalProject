@@ -28,72 +28,78 @@
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnDaftar = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // lblUsername
-            // 
+
+            // Username Label
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(50, 30);
+            this.lblUsername.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblUsername.Location = new System.Drawing.Point(50, 100);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(87, 20);
-            this.lblUsername.TabIndex = 0;
+            this.lblUsername.TabIndex = 1;
             this.lblUsername.Text = "Username:";
-            // 
-            // lblPassword
-            // 
+
+            // Password Label
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(50, 80);
+            this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblPassword.Location = new System.Drawing.Point(50, 160);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(82, 20);
-            this.lblPassword.TabIndex = 1;
+            this.lblPassword.TabIndex = 2;
             this.lblPassword.Text = "Password:";
-            // 
-            // tbUsername
-            // 
-            this.tbUsername.Location = new System.Drawing.Point(50, 50);
+
+            // Username TextBox
+            this.tbUsername.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbUsername.Location = new System.Drawing.Point(50, 125);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(200, 26);
-            this.tbUsername.TabIndex = 2;
-            // 
-            // tbPassword
-            // 
-            this.tbPassword.Location = new System.Drawing.Point(50, 100);
+            this.tbUsername.Size = new System.Drawing.Size(300, 29);
+            this.tbUsername.TabIndex = 3;
+
+            // Password TextBox
+            this.tbPassword.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbPassword.Location = new System.Drawing.Point(50, 185);
             this.tbPassword.Name = "tbPassword";
-            this.tbPassword.PasswordChar = '*';
-            this.tbPassword.Size = new System.Drawing.Size(200, 26);
-            this.tbPassword.TabIndex = 3;
-            // 
-            // btnLogin
-            // 
-            this.btnLogin.Location = new System.Drawing.Point(50, 150);
+            this.tbPassword.PasswordChar = '•';
+            this.tbPassword.Size = new System.Drawing.Size(300, 29);
+            this.tbPassword.TabIndex = 4;
+
+            // Login Button
+            this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnLogin.Location = new System.Drawing.Point(50, 240);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(87, 37);
-            this.btnLogin.TabIndex = 4;
+            this.btnLogin.Size = new System.Drawing.Size(140, 40);
+            this.btnLogin.TabIndex = 5;
             this.btnLogin.Text = "Login";
+            this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-            // 
-            // btnDaftar
-            // 
-            this.btnDaftar.Location = new System.Drawing.Point(163, 150);
+
+            // Register Button
+            this.btnDaftar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnDaftar.Location = new System.Drawing.Point(210, 240);
             this.btnDaftar.Name = "btnDaftar";
-            this.btnDaftar.Size = new System.Drawing.Size(87, 37);
-            this.btnDaftar.TabIndex = 5;
+            this.btnDaftar.Size = new System.Drawing.Size(140, 40);
+            this.btnDaftar.TabIndex = 6;
             this.btnDaftar.Text = "Daftar";
+            this.btnDaftar.UseVisualStyleBackColor = false;
             this.btnDaftar.Click += new System.EventHandler(this.btnDaftar_Click);
-            // 
-            // LoginPage
-            // 
-            this.ClientSize = new System.Drawing.Size(300, 250);
+
+            // Form Properties
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(400, 320);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.tbUsername);
             this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.btnDaftar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "LoginPage";
-            this.Text = "Login Page";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
     }
 }

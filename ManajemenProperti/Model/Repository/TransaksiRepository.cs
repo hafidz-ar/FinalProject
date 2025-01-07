@@ -18,7 +18,7 @@ namespace ManajemenProperti.Model.Repository
             _conn = context.Conn;
         }
 
-        public int Create(Transaksi transaksi)
+        public int createTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -47,7 +47,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int Update(Transaksi transaksi)
+        public int updateTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -76,7 +76,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int Delete(Transaksi transaksi)
+        public int deleteTransaksi(Transaksi transaksi)
         {
             int result = 0;
 
@@ -99,7 +99,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public List<Transaksi> ReadAll()
+        public List<Transaksi> readAllTransaksi()
         {
             List<Transaksi> list = new List<Transaksi>();
 
@@ -136,7 +136,7 @@ namespace ManajemenProperti.Model.Repository
             return list;
         }
 
-        public List<Transaksi> ReadByNama(string nama)
+        public List<Transaksi> readByPropertiID(int PropertiID)
         {
             List<Transaksi> list = new List<Transaksi>();
 
@@ -144,12 +144,12 @@ namespace ManajemenProperti.Model.Repository
             {
                 string sql = @"SELECT Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID
                                FROM Transaksi
-                               WHERE Keterangan LIKE @nama
+                               WHERE Keterangan LIKE @PropertiID
                                ORDER BY Tgl_Sewa";
 
                 using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
                 {
-                    cmd.Parameters.AddWithValue("@nama", string.Format("%{0}%", nama));
+                    cmd.Parameters.AddWithValue("@PropertiID", string.Format("%{0}%", PropertiID));
 
                     using (MySqlDataReader dtr = cmd.ExecuteReader())
                     {
@@ -170,7 +170,7 @@ namespace ManajemenProperti.Model.Repository
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.Print("ReadByNama error: {0}", ex.Message);
+                System.Diagnostics.Debug.Print("readByPropertiID error: {0}", ex.Message);
             }
 
             return list;

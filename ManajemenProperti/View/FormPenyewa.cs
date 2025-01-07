@@ -43,7 +43,7 @@ namespace ManajemenProperti.View
             // kosongkan listview
             lvwFormPenyewa.Items.Clear();
             // panggil method ReadAll dan tampung datanya ke dalam collection
-            listOfProperti = controller.ReadAll();
+            listOfProperti = controller.readAllProperti();
             // ekstrak objek mhs dari collection
             foreach (var prp in listOfProperti)
             {
@@ -83,7 +83,7 @@ namespace ManajemenProperti.View
             // kosongkan listview
             lvwFormPenyewa.Items.Clear();
             // panggil method ReadAll dan tampung datanya ke dalam collection
-            listOfProperti = controller.ReadByNama(searchField.Text);
+            listOfProperti = controller.readByNama(searchField.Text);
             // ekstrak objek mhs dari collection
             foreach (var prp in listOfProperti)
             {

@@ -18,7 +18,7 @@ namespace ManajemenProperti.Model.Repository
             _conn = context.Conn;
         }
 
-        public int Create(Properti properti)
+        public int createProperti(Properti prp)
         {
             int result = 0;
 
@@ -27,10 +27,10 @@ namespace ManajemenProperti.Model.Repository
 
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                cmd.Parameters.AddWithValue("@Nama", properti.Nama);
-                cmd.Parameters.AddWithValue("@Harga_sewa", properti.Harga_Sewa);
-                cmd.Parameters.AddWithValue("@Stok", properti.Stok);
-                cmd.Parameters.AddWithValue("@PropertiID", properti.PropertiID);
+                cmd.Parameters.AddWithValue("@Nama", prp.Nama);
+                cmd.Parameters.AddWithValue("@Harga_sewa", prp.Harga_Sewa);
+                cmd.Parameters.AddWithValue("@Stok", prp.Stok);
+                cmd.Parameters.AddWithValue("@PropertiID", prp.PropertiID);
 
                 try
                 {
@@ -45,7 +45,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int Update(Properti properti)
+        public int updateProperti(Properti prp)
         {
             int result = 0;
 
@@ -56,10 +56,10 @@ namespace ManajemenProperti.Model.Repository
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
                 // mendaftarkan parameter dan mengeset nilainya
-                cmd.Parameters.AddWithValue("@Nama", properti.Nama);
-                cmd.Parameters.AddWithValue("@Harga_sewa", properti.Harga_Sewa);
-                cmd.Parameters.AddWithValue("@Stok", properti.Stok);
-                cmd.Parameters.AddWithValue("@PropertiID", properti.PropertiID);
+                cmd.Parameters.AddWithValue("@Nama", prp.Nama);
+                cmd.Parameters.AddWithValue("@Harga_sewa", prp.Harga_Sewa);
+                cmd.Parameters.AddWithValue("@Stok", prp.Stok);
+                cmd.Parameters.AddWithValue("@PropertiID", prp.PropertiID);
 
                 try
                 {
@@ -75,7 +75,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public int Delete(Properti properti)
+        public int deleteProperti(Properti prp)
         {
             int result = 0;
 
@@ -86,7 +86,7 @@ namespace ManajemenProperti.Model.Repository
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
                 // mendaftarkan parameter dan mengeset nilainya
-                cmd.Parameters.AddWithValue("@PropertiID", properti.PropertiID);
+                cmd.Parameters.AddWithValue("@PropertiID", prp.PropertiID);
 
                 try
                 {
@@ -102,7 +102,7 @@ namespace ManajemenProperti.Model.Repository
             return result;
         }
 
-        public List<Properti> ReadAll()
+        public List<Properti> readAllProperti()
         {
             // membuat objek collection untuk menampung objek mahasiswa
             List<Properti> list = new List<Properti>();
@@ -145,7 +145,7 @@ namespace ManajemenProperti.Model.Repository
         }
 
         // Method untuk menampilkan data mahasiwa berdasarkan pencarian nama
-        public List<Properti> ReadByNama(string nama)
+        public List<Properti> readByNama(string nama)
         {
             // Membuat objek collection untuk menampung objek Properti
             List<Properti> list = new List<Properti>();

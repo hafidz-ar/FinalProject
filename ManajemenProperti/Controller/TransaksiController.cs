@@ -20,7 +20,7 @@ namespace ManajemenProperti.Controller
         /// </summary>
         /// <param name="keterangan"></param>
         /// <returns></returns>
-        public List<Transaksi> ReadByKeterangan(string keterangan)
+        public List<Transaksi> readByPropertiID(int PropertiID)
         {
             // membuat objek collection
             List<Transaksi> list = new List<Transaksi>();
@@ -32,7 +32,7 @@ namespace ManajemenProperti.Controller
                 _repository = new TransaksiRepository(context);
 
                 // panggil method ReadByKeterangan yang ada di dalam class repository
-                list = _repository.ReadByNama(keterangan);
+                list = _repository.readByPropertiID(PropertiID);
             }
 
             return list;
@@ -42,7 +42,7 @@ namespace ManajemenProperti.Controller
         /// Method untuk menampilkan semua data transaksi
         /// </summary>
         /// <returns></returns>
-        public List<Transaksi> ReadAll()
+        public List<Transaksi> readAllTransaksi()
         {
             // membuat objek collection
             List<Transaksi> list = new List<Transaksi>();
@@ -54,13 +54,13 @@ namespace ManajemenProperti.Controller
                 _repository = new TransaksiRepository(context);
 
                 // panggil method ReadAll yang ada di dalam class repository
-                list = _repository.ReadAll();
+                list = _repository.readAllTransaksi();
             }
 
             return list;
         }
 
-        public int Create(Transaksi trx)
+        public int createTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -106,7 +106,7 @@ namespace ManajemenProperti.Controller
                 _repository = new TransaksiRepository(context);
 
                 // panggil method Create class repository untuk menambahkan data
-                result = _repository.Create(trx);
+                result = _repository.createTransaksi(trx);
             }
 
             if (result > 0)
@@ -123,7 +123,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int Update(Transaksi trx)
+        public int updateTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -166,7 +166,7 @@ namespace ManajemenProperti.Controller
                 _repository = new TransaksiRepository(context);
 
                 // panggil method Update class repository untuk mengupdate data
-                result = _repository.Update(trx);
+                result = _repository.updateTransaksi(trx);
             }
 
             if (result > 0)
@@ -181,7 +181,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int Delete(Transaksi trx)
+        public int deleteTransaksi(Transaksi trx)
         {
             int result = 0;
 
@@ -200,7 +200,7 @@ namespace ManajemenProperti.Controller
                 _repository = new TransaksiRepository(context);
 
                 // panggil method Delete class repository untuk menghapus data
-                result = _repository.Delete(trx);
+                result = _repository.deleteTransaksi(trx);
             }
 
             if (result > 0)

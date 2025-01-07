@@ -20,7 +20,7 @@ namespace ManajemenProperti.Controller
         /// </summary>
         /// <param name="nama"></param>
         /// <returns></returns>
-        public List<Properti> ReadByNama(string nama)
+        public List<Properti> readByNama(string nama)
         {
             // membuat objek collection
             List<Properti> list = new List<Properti>();
@@ -32,7 +32,7 @@ namespace ManajemenProperti.Controller
                 _repository = new PropertiRepository(context);
 
                 // panggil method ReadByNama yang ada di dalam class repository
-                list = _repository.ReadByNama(nama);
+                list = _repository.readByNama(nama);
             }
 
             return list;
@@ -42,7 +42,7 @@ namespace ManajemenProperti.Controller
         /// Method untuk menampilkan semua data mahasiswa
         /// </summary>
         /// <returns></returns>
-        public List<Properti> ReadAll()
+        public List<Properti> readAllProperti()
         {
             // membuat objek collection
             List<Properti> list = new List<Properti>();
@@ -54,13 +54,13 @@ namespace ManajemenProperti.Controller
                 _repository = new PropertiRepository(context);
 
                 // panggil method ReadAll yang ada di dalam class repository
-                list = _repository.ReadAll();
+                list = _repository.readAllProperti();
             }
 
             return list;
         }
 
-        public int Create(Properti prp)
+        public int createProperti(Properti prp)
         {
             int result = 0;
 
@@ -98,7 +98,7 @@ namespace ManajemenProperti.Controller
                 _repository = new PropertiRepository(context);
 
                 // panggil method Create class repository untuk menambahkan data
-                result = _repository.Create(prp);
+                result = _repository.createProperti(prp);
             }
 
             if (result > 0)
@@ -115,7 +115,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int Update(Properti prp)
+        public int updateProperti(Properti prp)
         {
             int result = 0;
 
@@ -157,7 +157,7 @@ namespace ManajemenProperti.Controller
                 _repository = new PropertiRepository(context);
 
                 // panggil method Create class repository untuk menambahkan data
-                result = _repository.Create(prp);
+                result = _repository.createProperti(prp);
             }
 
             if (result > 0)
@@ -172,7 +172,7 @@ namespace ManajemenProperti.Controller
             return result;
         }
 
-        public int Delete(Properti prp)
+        public int deleteProperti(Properti prp)
         {
             int result = 0;
 
@@ -191,7 +191,7 @@ namespace ManajemenProperti.Controller
                 _repository = new PropertiRepository(context);
 
                 // panggil method Delete class repository untuk menghapus data
-                result = _repository.Delete(prp);
+                result = _repository.deleteProperti(prp);
             }
 
             if (result > 0)
