@@ -22,12 +22,12 @@ namespace ManajemenProperti.Model.Repository
         {
             int result = 0;
 
-            string sql = @"INSERT INTO Transaksi (Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID) 
-                   VALUES (@Users, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan, @TransaksiID)";
+            string sql = @"INSERT INTO Transaksi (Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID) 
+                   VALUES (@username, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan, @TransaksiID)";
 
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                cmd.Parameters.AddWithValue("@Users", transaksi.Users);
+                cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
                 cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
                 cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
@@ -51,12 +51,12 @@ namespace ManajemenProperti.Model.Repository
         {
             int result = 0;
 
-            string sql = @"UPDATE Transaksi SET Users = @Users, PropertiID = @PropertiID, Tgl_Sewa = @Tgl_Sewa, Lama_Sewa = @Lama_Sewa, Keterangan = @Keterangan 
+            string sql = @"UPDATE Transaksi SET Username = @Username, PropertiID = @PropertiID, Tgl_Sewa = @Tgl_Sewa, Lama_Sewa = @Lama_Sewa, Keterangan = @Keterangan 
                            WHERE TransaksiID = @TransaksiID";
 
             using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                cmd.Parameters.AddWithValue("@Users", transaksi.Users);
+                cmd.Parameters.AddWithValue("@Username", transaksi.Username);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
                 cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
                 cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
@@ -105,7 +105,7 @@ namespace ManajemenProperti.Model.Repository
 
             try
             {
-                string sql = @"select Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID 
+                string sql = @"select Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID 
                                from Transaksi 
                                order by TransaksiID";
 
@@ -116,7 +116,7 @@ namespace ManajemenProperti.Model.Repository
                         while (dtr.Read())
                         {
                             Transaksi trx = new Transaksi();
-                            trx.Users = dtr["Users"] != DBNull.Value ? Convert.ToInt32(dtr["Users"]) : 0;
+                            trx.Username = dtr["Username"] != DBNull.Value ? Convert.ToInt32(dtr["Username"]) : 0;
                             trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
                             trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
                             trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;
@@ -142,7 +142,7 @@ namespace ManajemenProperti.Model.Repository
 
             try
             {
-                string sql = @"SELECT Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID
+                string sql = @"SELECT Username, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID
                                FROM Transaksi
                                WHERE Keterangan LIKE @nama
                                ORDER BY Tgl_Sewa";
@@ -156,7 +156,7 @@ namespace ManajemenProperti.Model.Repository
                         while (dtr.Read())
                         {
                             Transaksi trx = new Transaksi();
-                            trx.Users = dtr["Users"] != DBNull.Value ? Convert.ToInt32(dtr["Users"]) : 0;
+                            trx.Username = dtr["Username"] != DBNull.Value ? Convert.ToInt32(dtr["Username"]) : 0;
                             trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
                             trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
                             trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;

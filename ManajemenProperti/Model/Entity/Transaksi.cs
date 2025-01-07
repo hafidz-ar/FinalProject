@@ -9,11 +9,10 @@ namespace ManajemenProperti.Model.Entity
     public class Transaksi
     {
         public int TransaksiID { get; set; }
-        public int Users { get; set; }
+        public int Username { get; set; }
         public int PropertiID { get; set; }
         public DateTime Tgl_Sewa { get; set; }
         public int Lama_Sewa { get; set; }
         public string Keterangan { get; set; }
-
     }
 }

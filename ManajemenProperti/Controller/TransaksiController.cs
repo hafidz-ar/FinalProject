@@ -65,7 +65,7 @@ namespace ManajemenProperti.Controller
             int result = 0;
 
             // cek pengguna yang diinputkan tidak boleh kosong
-            if (trx.Users <= 0)
+            if (trx.Username <= 0)
             {
                 MessageBox.Show("Users harus diisi dengan ID yang valid !!!", "Peringatan",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -128,7 +128,7 @@ namespace ManajemenProperti.Controller
             int result = 0;
 
             // cek pengguna yang diinputkan tidak boleh kosong
-            if (trx.Users <= 0)
+            if (trx.Username <= 0)
             {
                 MessageBox.Show("Users harus diisi dengan ID yang valid !!!", "Peringatan",
                         MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
