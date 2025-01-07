@@ -11,116 +11,169 @@ namespace ManajemenProperti.Model.Repository
 {
     public class TransaksiRepository
     {
-        private readonly DbContext dbContext;
+        private MySqlConnection _conn;
 
-        public TransaksiRepository()
+        public TransaksiRepository(DbContext context)
         {
-            dbContext = new DbContext();
+            _conn = context.Conn;
         }
 
-        public List<Transaksi> GetAll()
+        public int Create(Transaksi transaksi)
         {
-            var transaksiList = new List<Transaksi>();
-            using (var connection = dbContext.Conn)
+            int result = 0;
+
+            string sql = @"INSERT INTO Transaksi (Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID) 
+                   VALUES (@Users, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan, @TransaksiID)";
+
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                connection.Open();
-                string query = "SELECT * FROM Transaksi";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    transaksiList.Add(new Transaksi
-                    {
-                        TransaksiID = reader.GetInt32("TransaksiID"),
-                        PenyewaID = reader.GetInt32("PenyewaID"),
-                        NIP = reader.GetInt32("NIP"),
-                        PropertiID = reader.GetInt32("PropertiID"),
-                        Tgl_Sewa = reader.GetDateTime("Tgl_Sewa"),
-                        Lama_Sewa = reader.GetInt32("Lama_Sewa"),
-                        Keterangan = reader.GetString("Keterangan")
-                    });
-                }
-            }
-            return transaksiList;
-        }
-
-        public Transaksi GetById(int transaksiId)
-        {
-            Transaksi transaksi = null;
-            using (var connection = dbContext.Conn)
-            {
-                connection.Open();
-                string query = "SELECT * FROM Transaksi WHERE TransaksiID = @TransaksiID";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@TransaksiID", transaksiId);
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    transaksi = new Transaksi
-                    {
-                        TransaksiID = reader.GetInt32("TransaksiID"),
-                        PenyewaID = reader.GetInt32("PenyewaID"),
-                        NIP = reader.GetInt32("NIP"),
-                        PropertiID = reader.GetInt32("PropertiID"),
-                        Tgl_Sewa = reader.GetDateTime("Tgl_Sewa"),
-                        Lama_Sewa = reader.GetInt32("Lama_Sewa"),
-                        Keterangan = reader.GetString("Keterangan")
-                    };
-                }
-            }
-            return transaksi;
-        }
-
-        public void Add(Transaksi transaksi)
-        {
-            using (var connection = dbContext.Conn)
-            {
-                connection.Open();
-                string query = "INSERT INTO Transaksi (TransaksiID, PenyewaID, NIP, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan) " +
-                               "VALUES (@TransaksiID, @PenyewaID, @NIP, @PropertiID, @Tgl_Sewa, @Lama_Sewa, @Keterangan)";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
-                cmd.Parameters.AddWithValue("@PenyewaID", transaksi.PenyewaID);
-                cmd.Parameters.AddWithValue("@NIP", transaksi.NIP);
+                cmd.Parameters.AddWithValue("@Users", transaksi.Users);
                 cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
-                cmd.Parameters.AddWithValue("@Tgl_Transaksi", transaksi.Tgl_Sewa);
-                cmd.Parameters.AddWithValue("@Lama_transaksi", transaksi.Lama_Sewa);
-                cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public void Update(Transaksi transaksi)
-        {
-            using (var connection = dbContext.Conn)
-            {
-                connection.Open();
-                string query = "UPDATE Transaksi SET PenyewaID = @PenyewaID, NIP = @NIP, PropertiID = @PropertiID, Tgl_Sewa = @Tgl_Sewa, " +
-                               "Lama_Sewa = @Lama_Sewa, Keterangan = @Keterangan WHERE TransaksiID = @TransaksiID";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@PenyewaID", transaksi.PenyewaID);
-                cmd.Parameters.AddWithValue("@NIP", transaksi.NIP);
-                cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
-                cmd.Parameters.AddWithValue("@Tgl_Transaksi", transaksi.Tgl_Sewa);
-                cmd.Parameters.AddWithValue("@Lama_Transaksi", transaksi.Lama_Sewa);
+                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
+                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
                 cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
                 cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
-                cmd.ExecuteNonQuery();
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("Create error: {0}", ex.Message);
+                }
             }
+
+            return result;
         }
 
-        public void Delete(int transaksiId)
+        public int Update(Transaksi transaksi)
         {
-            using (var connection = dbContext.Conn)
+            int result = 0;
+
+            string sql = @"UPDATE Transaksi SET Users = @Users, PropertiID = @PropertiID, Tgl_Sewa = @Tgl_Sewa, Lama_Sewa = @Lama_Sewa, Keterangan = @Keterangan 
+                           WHERE TransaksiID = @TransaksiID";
+
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
             {
-                connection.Open();
-                string query = "DELETE FROM Transaksi WHERE TransaksiID = @TransaksiID";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@TransaksiID", transaksiId);
-                cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@Users", transaksi.Users);
+                cmd.Parameters.AddWithValue("@PropertiID", transaksi.PropertiID);
+                cmd.Parameters.AddWithValue("@Tgl_Sewa", transaksi.Tgl_Sewa);
+                cmd.Parameters.AddWithValue("@Lama_Sewa", transaksi.Lama_Sewa);
+                cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
+                cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("Update error: {0}", ex.Message);
+                }
             }
+
+            return result;
+        }
+
+        public int Delete(Transaksi transaksi)
+        {
+            int result = 0;
+
+            string sql = @"DELETE FROM Transaksi WHERE TransaksiID = @TransaksiID";
+
+            using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@TransaksiID", transaksi.TransaksiID);
+
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("Delete error: {0}", ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        public List<Transaksi> ReadAll()
+        {
+            List<Transaksi> list = new List<Transaksi>();
+
+            try
+            {
+                string sql = @"select Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID 
+                               from Transaksi 
+                               order by TransaksiID";
+
+                using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+                {
+                    using (MySqlDataReader dtr = cmd.ExecuteReader())
+                    {
+                        while (dtr.Read())
+                        {
+                            Transaksi trx = new Transaksi();
+                            trx.Users = dtr["Users"] != DBNull.Value ? Convert.ToInt32(dtr["Users"]) : 0;
+                            trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
+                            trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
+                            trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;
+                            trx.Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty;
+                            trx.TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0;
+
+                            list.Add(trx);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Print("ReadAll error: {0}", ex.Message);
+            }
+
+            return list;
+        }
+
+        public List<Transaksi> ReadByNama(string nama)
+        {
+            List<Transaksi> list = new List<Transaksi>();
+
+            try
+            {
+                string sql = @"SELECT Users, PropertiID, Tgl_Sewa, Lama_Sewa, Keterangan, TransaksiID
+                               FROM Transaksi
+                               WHERE Keterangan LIKE @nama
+                               ORDER BY Tgl_Sewa";
+
+                using (MySqlCommand cmd = new MySqlCommand(sql, _conn))
+                {
+                    cmd.Parameters.AddWithValue("@nama", string.Format("%{0}%", nama));
+
+                    using (MySqlDataReader dtr = cmd.ExecuteReader())
+                    {
+                        while (dtr.Read())
+                        {
+                            Transaksi trx = new Transaksi();
+                            trx.Users = dtr["Users"] != DBNull.Value ? Convert.ToInt32(dtr["Users"]) : 0;
+                            trx.PropertiID = dtr["PropertiID"] != DBNull.Value ? Convert.ToInt32(dtr["PropertiID"]) : 0;
+                            trx.Tgl_Sewa = dtr["Tgl_Sewa"] != DBNull.Value ? Convert.ToDateTime(dtr["Tgl_Sewa"]) : DateTime.MinValue;
+                            trx.Lama_Sewa = dtr["Lama_Sewa"] != DBNull.Value ? Convert.ToInt32(dtr["Lama_Sewa"]) : 0;
+                            trx.Keterangan = dtr["Keterangan"] != DBNull.Value ? dtr["Keterangan"].ToString() : string.Empty;
+                            trx.TransaksiID = dtr["TransaksiID"] != DBNull.Value ? Convert.ToInt32(dtr["TransaksiID"]) : 0;
+
+                            list.Add(trx);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Print("ReadByNama error: {0}", ex.Message);
+            }
+
+            return list;
         }
     }
 }
