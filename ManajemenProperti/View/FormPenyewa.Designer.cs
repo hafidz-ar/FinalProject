@@ -32,7 +32,8 @@
             this.btnTambahPrp = new System.Windows.Forms.Button();
             this.searchField = new System.Windows.Forms.TextBox();
             this.btnCari = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSewaPrp = new System.Windows.Forms.Button();
+            this.btnRiwayatTrx = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lvwFormPenyewa
@@ -71,21 +72,31 @@
             this.btnCari.UseVisualStyleBackColor = true;
             this.btnCari.Click += new System.EventHandler(this.btnCari_Click);
             // 
-            // button1
+            // btnSewaPrp
             // 
-            this.button1.Location = new System.Drawing.Point(12, 529);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(165, 37);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Tambah Properti";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnSewaPrp.Location = new System.Drawing.Point(12, 529);
+            this.btnSewaPrp.Name = "btnSewaPrp";
+            this.btnSewaPrp.Size = new System.Drawing.Size(165, 37);
+            this.btnSewaPrp.TabIndex = 15;
+            this.btnSewaPrp.Text = "Sewa Properti";
+            this.btnSewaPrp.UseVisualStyleBackColor = true;
+            // 
+            // btnRiwayatTrx
+            // 
+            this.btnRiwayatTrx.Location = new System.Drawing.Point(183, 529);
+            this.btnRiwayatTrx.Name = "btnRiwayatTrx";
+            this.btnRiwayatTrx.Size = new System.Drawing.Size(165, 37);
+            this.btnRiwayatTrx.TabIndex = 16;
+            this.btnRiwayatTrx.Text = "Riwayat Transaksi";
+            this.btnRiwayatTrx.UseVisualStyleBackColor = true;
             // 
             // FormPenyewa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 588);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnRiwayatTrx);
+            this.Controls.Add(this.btnSewaPrp);
             this.Controls.Add(this.btnCari);
             this.Controls.Add(this.searchField);
             this.Controls.Add(this.lvwFormPenyewa);
@@ -104,6 +115,7 @@
         private System.Windows.Forms.TextBox searchField;
         private System.Windows.Forms.Button btnCari;
         public System.Windows.Forms.ListView lvwFormPenyewa;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSewaPrp;
+        private System.Windows.Forms.Button btnRiwayatTrx;
     }
 }
