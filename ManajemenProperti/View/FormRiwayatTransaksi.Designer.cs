@@ -31,6 +31,7 @@
             this.lvwRiwayatTransaksi = new System.Windows.Forms.ListView();
             this.label1 = new System.Windows.Forms.Label();
             this.btnKembali = new System.Windows.Forms.Button();
+            this.btnHapus = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lvwRiwayatTransaksi
@@ -61,11 +62,22 @@
             this.btnKembali.UseVisualStyleBackColor = true;
             this.btnKembali.Click += new System.EventHandler(this.btnKembali_Click);
             // 
+            // btnHapus
+            // 
+            this.btnHapus.Location = new System.Drawing.Point(430, 529);
+            this.btnHapus.Name = "btnHapus";
+            this.btnHapus.Size = new System.Drawing.Size(165, 37);
+            this.btnHapus.TabIndex = 18;
+            this.btnHapus.Text = "Hapus";
+            this.btnHapus.UseVisualStyleBackColor = true;
+            this.btnHapus.Click += new System.EventHandler(this.btnHapus_Click);
+            // 
             // FormRiwayatTransaksi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 588);
+            this.Controls.Add(this.btnHapus);
             this.Controls.Add(this.btnKembali);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lvwRiwayatTransaksi);
@@ -84,5 +96,6 @@
         public System.Windows.Forms.ListView lvwRiwayatTransaksi;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnKembali;
+        private System.Windows.Forms.Button btnHapus;
     }
 }

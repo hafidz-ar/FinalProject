@@ -78,5 +78,45 @@ namespace ManajemenProperti.View
             formPenyewa.Show();
             this.Hide();
         }
+
+        private void btnHapus_Click(object sender, EventArgs e)
+        {
+            // Ensure that the user has selected an item
+            if (lvwRiwayatTransaksi.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Silakan pilih transaksi yang ingin dihapus.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Get the selected transaction's details
+            var selectedItem = lvwRiwayatTransaksi.SelectedItems[0];
+            int transaksiID = int.Parse(selectedItem.SubItems[1].Text); // Assuming the TransaksiID is in the second column
+
+            // Create the Transaksi object to pass to the controller
+            var transaksiToDelete = new Transaksi
+            {
+                TransaksiID = transaksiID
+            };
+
+            // Confirm deletion
+            var confirmResult = MessageBox.Show("Apakah Anda yakin ingin menghapus transaksi ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirmResult == DialogResult.Yes)
+            {
+                // Call the controller to delete the transaction
+                int result = controller.deleteTransaksi(transaksiToDelete);
+
+                if (result > 0)
+                {
+                    MessageBox.Show("Transaksi berhasil dihapus.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Reload the data to reflect the deletion
+                    LoadDataTransaksi();
+                }
+                else
+                {
+                    MessageBox.Show("Gagal menghapus transaksi.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
     }
 }
