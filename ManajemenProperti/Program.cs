@@ -17,7 +17,7 @@ namespace ManajemenProperti
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormRiwayatTransaksi());
+            Application.Run(new LoginPage());
         }
     }
 }
