@@ -17,6 +17,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTambahProperti));
             this.txtNama = new System.Windows.Forms.TextBox();
             this.txtStok = new System.Windows.Forms.TextBox();
             this.txtHargaSewa = new System.Windows.Forms.TextBox();
@@ -107,6 +108,7 @@
             this.Controls.Add(this.txtStok);
             this.Controls.Add(this.txtNama);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FormTambahProperti";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
