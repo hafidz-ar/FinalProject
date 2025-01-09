@@ -118,9 +118,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::ManajemenProperti.Properties.Resources.Red_Black_Real_Estate_Logo;
-            this.pictureBox1.Location = new System.Drawing.Point(105, 205);
+            this.pictureBox1.Location = new System.Drawing.Point(92, 205);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(129, 90);
+            this.pictureBox1.Size = new System.Drawing.Size(132, 102);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;

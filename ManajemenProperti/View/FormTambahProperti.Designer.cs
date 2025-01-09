@@ -25,61 +25,79 @@
             this.labelHargaSewa = new System.Windows.Forms.Label();
             this.labelStok = new System.Windows.Forms.Label();
             this.SuspendLayout();
-
+            // 
             // txtNama
+            // 
+            this.txtNama.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNama.Location = new System.Drawing.Point(20, 40);
             this.txtNama.Name = "txtNama";
-            this.txtNama.Size = new System.Drawing.Size(250, 20);
+            this.txtNama.Size = new System.Drawing.Size(250, 25);
             this.txtNama.TabIndex = 0;
-
+            // 
             // txtStok
-            this.txtStok.Location = new System.Drawing.Point(20, 120);
+            // 
+            this.txtStok.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtStok.Location = new System.Drawing.Point(20, 142);
             this.txtStok.Name = "txtStok";
-            this.txtStok.Size = new System.Drawing.Size(250, 20);
+            this.txtStok.Size = new System.Drawing.Size(250, 25);
             this.txtStok.TabIndex = 2;
-
+            // 
             // txtHargaSewa
-            this.txtHargaSewa.Location = new System.Drawing.Point(20, 80);
+            // 
+            this.txtHargaSewa.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtHargaSewa.Location = new System.Drawing.Point(20, 92);
             this.txtHargaSewa.Name = "txtHargaSewa";
-            this.txtHargaSewa.Size = new System.Drawing.Size(250, 20);
+            this.txtHargaSewa.Size = new System.Drawing.Size(250, 25);
             this.txtHargaSewa.TabIndex = 1;
-
+            // 
             // btnSimpan
-            this.btnSimpan.Location = new System.Drawing.Point(100, 160);
+            // 
+            this.btnSimpan.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnSimpan.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.btnSimpan.ForeColor = System.Drawing.Color.White;
+            this.btnSimpan.Location = new System.Drawing.Point(100, 173);
             this.btnSimpan.Name = "btnSimpan";
-            this.btnSimpan.Size = new System.Drawing.Size(100, 30);
+            this.btnSimpan.Size = new System.Drawing.Size(100, 35);
             this.btnSimpan.TabIndex = 3;
             this.btnSimpan.Text = "Simpan";
-            this.btnSimpan.UseVisualStyleBackColor = true;
+            this.btnSimpan.UseVisualStyleBackColor = false;
             this.btnSimpan.Click += new System.EventHandler(this.btnSimpan_Click);
-
+            // 
             // labelNama
+            // 
             this.labelNama.AutoSize = true;
+            this.labelNama.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.labelNama.Location = new System.Drawing.Point(20, 20);
             this.labelNama.Name = "labelNama";
-            this.labelNama.Size = new System.Drawing.Size(35, 13);
+            this.labelNama.Size = new System.Drawing.Size(45, 19);
             this.labelNama.TabIndex = 4;
             this.labelNama.Text = "Nama";
-
+            // 
             // labelHargaSewa
+            // 
             this.labelHargaSewa.AutoSize = true;
-            this.labelHargaSewa.Location = new System.Drawing.Point(20, 60);
+            this.labelHargaSewa.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelHargaSewa.Location = new System.Drawing.Point(20, 70);
             this.labelHargaSewa.Name = "labelHargaSewa";
-            this.labelHargaSewa.Size = new System.Drawing.Size(68, 13);
+            this.labelHargaSewa.Size = new System.Drawing.Size(81, 19);
             this.labelHargaSewa.TabIndex = 5;
             this.labelHargaSewa.Text = "Harga Sewa";
-
+            // 
             // labelStok
+            // 
             this.labelStok.AutoSize = true;
-            this.labelStok.Location = new System.Drawing.Point(20, 100);
+            this.labelStok.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.labelStok.Location = new System.Drawing.Point(20, 120);
             this.labelStok.Name = "labelStok";
-            this.labelStok.Size = new System.Drawing.Size(29, 13);
+            this.labelStok.Size = new System.Drawing.Size(36, 19);
             this.labelStok.TabIndex = 6;
             this.labelStok.Text = "Stok";
-
+            // 
             // FormTambahProperti
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(300, 220);
             this.Controls.Add(this.labelStok);
             this.Controls.Add(this.labelHargaSewa);
@@ -95,6 +113,7 @@
             this.Text = "Tambah Properti";
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
